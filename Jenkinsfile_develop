@@ -42,7 +42,7 @@ pipeline {
                 echo 'Building..'
                     withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh '''
-                            docker login -u ${hetdarji} -p ${Het@1129}
+                            docker login -u ${USERNAME} -p ${PASSWORD}
                             docker tag ${practice_2}:${1} ${hetdarji}/${practice_2}:${v1}"
                             docker push practice_2
                         '''

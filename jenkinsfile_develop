@@ -15,15 +15,15 @@ pipeline {
 
         stage('build image') {
             steps {
-                sh 'dokcer build -t practice_2 .'
+                sh 'sudo dokcer build -t practice_2 .'
             }
         }
 
         stage('Deploy container'){
             steps {
                 echo "deploying container"
-                sh 'docker stop practice_2 || true && docker rm pracice_2 || true'
-                sh 'docker run --name practice_2 -d -p 8081:80 practice_2'
+                sh 'sudo docker stop practice_2 || true && docker rm pracice_2 || true'
+                sh 'sudo docker run --name practice_2 -d -p 8081:80 practice_2'
             }
         }
 

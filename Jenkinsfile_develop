@@ -15,7 +15,7 @@ pipeline {
 
         stage('build image') {
             steps {
-                sh 'dokcer build -t practice_2 .'
+                sh 'docker build -t practice_2 .'
             }
         }
 

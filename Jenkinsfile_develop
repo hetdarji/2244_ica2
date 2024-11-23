@@ -13,25 +13,21 @@ pipeline {
             }
         }
 
-        stage('build image') {
+        stage('Build Image') {
             steps {
                 sh 'docker build -t practice_2 .'
             }
         }
 
-        stage('Deploy container'){
+        stage('Deploy Container') {
             steps {
-                echo "deploying container"
-                sh 'docker stop c1|| true && docker rm c1 || true'
+                echo "Deploying container"
+                sh 'docker stop c1 || true && docker rm c1 || true'
                 sh 'docker run --name c1 -d -p 8081:80 practice_2'
             }
         }
-        stage('testing') {
-            steps {
-                sh 'curl -I localhost:8081'
-            }
-        }
-        stage('testing') {
+
+        stage('Testing') {
             steps {
                 sh 'curl -I localhost:8081'
             }
@@ -39,16 +35,15 @@ pipeline {
 
         stage('Build and Push') {
             steps {
-                echo 'Building..'
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh '''
-                            docker login -u ${USERNAME} -p ${PASSWORD}
-                            docker tag ${practice_2}:${1} ${hetdarji}/${practice_2}:${v1}"
-                            docker push practice_2
-                           '''
-                    }
+                echo 'Building and pushing image...'
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    sh '''
+                        docker login -u ${USERNAME} -p ${PASSWORD}
+                        docker tag practice_2:latest ${USERNAME}/practice_2:v1
+                        docker push ${USERNAME}/practice_2:v1
+                    '''
+                }
             }
-
         }
     }
 }

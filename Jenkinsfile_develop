@@ -38,13 +38,11 @@ pipeline {
                 echo 'Building and pushing image...'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh '''
-                        '''
                             docker login -u ${USERNAME} -p ${PASSWORD}
                             docker tag practice_2:latest ${USERNAME}/practice_2
                             docker tag practice_2:latest ${USERNAME}/practice_2:develop-${env.BUILD_ID}
                             docker push ${USERNAME}/practice_2
                             docker push ${USERNAME}/practice_2:develop-${env.BUILD_ID} 
-                        '''
                     '''
                 }
             }

@@ -26,6 +26,31 @@ pipeline {
                 sh 'docker run --name c1 -d -p 8081:80 practice_2'
             }
         }
+        stage('testing') {
+            steps {
+                sh 'curl -I localhost:8081'
+            }
+        }
+        stage('testing') {
+            steps {
+                sh 'curl -I localhost:8081'
+            }
+        }
+
+        stage('Build and Push') {
+            steps {
+                echo 'Building..'
+               
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub-auth', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh '''
+                            docker login -u ${hetdarji} -p ${het@1129}
+                            docker tag ${practice_2}:${1} ${hetdarji}/${practice_2}:${v1}"
+                            docker push practice_2
+                        '''
+                    
+                }
+            }
+        }
 
         // This block is to deploy the container into another application server.
         // You need sshAgent Jenkins plugin to be installed (from Managed Jenkins -> Plugin) and SSH communication is enabled between Jenkins and Application server

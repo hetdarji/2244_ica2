@@ -9,7 +9,7 @@ pipeline {
                 sh 'docker pull hetdarji/practice_2:latest'
             }
         }
-        stage('Run Container') {
+        stage('Remove running container and Run Container') {
             steps {
                 sh 'docker stop practice_2 || true && docker rm practice_2 || true'
                 sh 'docker run -d --name practice_2 -p 8082:80 hetdarji/practice_2:latest'

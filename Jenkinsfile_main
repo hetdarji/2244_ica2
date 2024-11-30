@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+    environment {
+        DOCKER_REPO = "hetdarji/practice_2"
+    }
+    stages {
+        stage('Pull Docker Image') {
+            steps {
+                sh 'docker pull hetdarji/practice_2:latest'
+            }
+        }
+        stage('Run Container') {
+            steps {
+                sh 'docker stop hetdarji/practice_2:latest || true && docker rm hetdarji/practice_2:latest || true'
+                sh 'docker run -d -p 8082:80 hetdarji/practice_2:latest'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'curl -I localhost:8082'
+            }
+        }
+    }
+}

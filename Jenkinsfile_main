@@ -12,7 +12,6 @@ pipeline {
         stage('Stop and Remove Old Container') {
             steps {
                 script {
-                    // Stop and remove the container if it exists
                     sh '''
                     if [ $(docker ps -aq -f name=practice_2) ]; then
                         docker stop practice_2 || true

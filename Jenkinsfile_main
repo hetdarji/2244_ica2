@@ -9,10 +9,22 @@ pipeline {
                 sh 'docker pull hetdarji/practice_2:latest'
             }
         }
+        stage('Stop and Remove Old Container') {
+            steps {
+                script {
+                    // Stop and remove the container if it exists
+                    sh '''
+                    if [ $(docker ps -aq -f name=practice_2) ]; then
+                        docker stop practice_2 || true
+                        docker rm practice_2 || true
+                    fi
+                    '''
+                }
+            }
+        }
         stage('Run Container') {
             steps {
-                sh 'docker stop practice_2 || true && docker rm practice_2 || true'
-                sh 'docker run -d --name practice_2 -p 8082:80 hetdarji/practice_2:latest'
+                sh 'docker run -d --name practice_2 -p 8082:80 ${DOCKER_REPO}:latest'
             }
         }
         stage('Test') {

@@ -11,8 +11,8 @@ pipeline {
         }
         stage('Run Container') {
             steps {
-                sh 'docker stop hetdarji/practice_2:latest || true && docker rm hetdarji/practice_2:latest || true'
-                sh 'docker run -d -p 8082:80 hetdarji/practice_2:latest'
+                sh 'docker stop practice_2 || true && docker rm practice_2 || true'
+                sh 'docker run -d --name practice_2 -p 8082:80 hetdarji/practice_2:latest'
             }
         }
         stage('Test') {
